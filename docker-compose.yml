@@ -1,0 +1,36 @@
+name: comfyui
+services:
+  nvidia:
+    build:
+      context: docker
+      args:
+        UID: "0"
+        COMMIT: "master"
+    user: "0:0"
+    volumes:
+      - venv:/comfyui/venv
+      - cache:/comfyui/cache
+      - ./sd_comfyui_data/output:/comfyui/repo/output
+      - ./sd_comfyui_data/input:/comfyui/repo/input
+      - ./sd_comfyui_data/models:/comfyui/repo/models
+      - ./sd_comfyui_data/custom_nodes:/comfyui/repo/custom_nodes
+      - ./sd_webui_data:/comfyui/extra_data
+    command: |
+      --listen
+    ports:
+      - "8188:8188"
+    tmpfs:
+      - /tmp:exec
+    stdin_open: true
+    tty: true
+    init: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ compute, utility ]
+volumes:
+  venv:
+  cache:
