@@ -5,7 +5,7 @@
 * Docker (docker-ce)
 * NVIDIA Container Toolkit (nvidia-docker2)
 
-Tested on Ubuntu 22.04 on WSL2.
+Tested on Ubuntu 24.04 on WSL2.
 
 ## Installation
 
@@ -20,7 +20,6 @@ Tested on Ubuntu 22.04 on WSL2.
        user: "1000:1000"
        volumes:
          - /mnt/c/sd_comfyui_data/output:/comfyui/repo/output
-         - /mnt/c/sd_comfyui_data/input:/comfyui/repo/input
          - /mnt/c/sd_comfyui_data/models:/comfyui/repo/models
          - /mnt/c/sd_comfyui_data/custom_nodes:/comfyui/repo/custom_nodes
          - /mnt/c/sd_webui_data:/comfyui/extra_data
@@ -28,7 +27,7 @@ Tested on Ubuntu 22.04 on WSL2.
 
 2. Build image
 
-       docker compose build --build-arg COMMIT=master
+       docker compose build --build-arg COMMIT=master --build-arg CUDA_VERSION=12.6.3
 
 ## Usage
 

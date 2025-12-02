@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 if [[ ! -f /comfyui/venv/bin/activate ]]; then
-    python3 -m venv /comfyui/venv
+    CUDA_MAJOR=$(echo "$CUDA_VERSION" | cut -d. -f1)
+    CUDA_MINOR=$(echo "$CUDA_VERSION" | cut -d. -f2)
+    python3.12 -m venv /comfyui/venv
     source /comfyui/venv/bin/activate
     pip install -U pip wheel
+    pip install torch torchvision torchaudio --extra-index-url "https://download.pytorch.org/whl/cu${CUDA_MAJOR}${CUDA_MINOR}"
     pip install -r requirements.txt
     if [[ ! -d /comfyui/repo/custom_nodes/ComfyUI-Manager ]]; then
-        git clone https://github.com/ltdrdata/ComfyUI-Manager.git /comfyui/repo/custom_nodes/ComfyUI-Manager
+        git clone https://github.com/Comfy-Org/ComfyUI-Manager.git /comfyui/repo/custom_nodes/ComfyUI-Manager
     fi
 else
     source /comfyui/venv/bin/activate
 fi
 git reset --hard
-exec python3 main.py "$@"
+exec python3.12 main.py "$@"

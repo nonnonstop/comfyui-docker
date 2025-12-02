@@ -1,18 +1,19 @@
-FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+ARG CUDA_VERSION=13.0.2
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu24.04
 
 # Install apt packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    wget git python3.10 python3.10-venv \
-    libgl1-mesa-glx libglib2.0-0 \
+    wget git python3.12 python3.12-venv python3.12-dev \
+    libglx-mesa0 libglib2.0-0 build-essential \
     && \
     rm -rf /var/lib/apt/lists/*
 
 # Setup user
 ARG UID=0
 ARG GID=${UID}
-RUN (if [ ${GID} -ne 0 ] ; then groupadd -g ${GID} comfyui ; fi) && \
-    (if [ ${UID} -ne 0 ] ; then useradd -l -m -s /bin/bash -u ${UID} -g ${GID} comfyui ; fi)
+RUN (if [ ${GID} -ne 0 ] ; then groupadd -o -g ${GID} comfyui ; fi) && \
+    (if [ ${UID} -ne 0 ] ; then useradd -o -l -m -s /bin/bash -u ${UID} -g ${GID} comfyui ; fi)
 RUN mkdir -p /comfyui && \
     chown ${UID}:${GID} -R /comfyui
 USER ${UID}:${GID}
@@ -34,4 +35,5 @@ ENV HF_HOME=/comfyui/cache/huggingface
 VOLUME [ "/comfyui/venv", "/comfyui/cache" ]
 WORKDIR /comfyui/repo
 COPY --chown=${UID}:${GID} entrypoint.sh /comfyui/entrypoint.sh
+ENV CUDA_VERSION=${CUDA_VERSION}
 ENTRYPOINT [ "bash", "/comfyui/entrypoint.sh" ]
