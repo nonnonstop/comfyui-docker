@@ -1,11 +1,11 @@
-ARG CUDA_VERSION=13.0.2
+ARG CUDA_VERSION=13.0.3
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu24.04
 
 # Install apt packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     wget git python3.12 python3.12-venv python3.12-dev \
-    libglx-mesa0 libglib2.0-0 build-essential \
+    libgl1 libglx-mesa0 libglib2.0-0 build-essential \
     && \
     rm -rf /var/lib/apt/lists/*
 

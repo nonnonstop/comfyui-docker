@@ -17,6 +17,7 @@ services:
       - ./sd_webui_data:/comfyui/extra_data
     command: |
       --listen
+      --enable-manager
     ports:
       - "8188:8188"
     tmpfs:

@@ -7,12 +7,9 @@ if [[ ! -f /comfyui/venv/bin/activate ]]; then
     source /comfyui/venv/bin/activate
     pip install -U pip wheel
     pip install torch torchvision torchaudio --extra-index-url "https://download.pytorch.org/whl/cu${CUDA_MAJOR}${CUDA_MINOR}"
-    pip install -r requirements.txt
-    if [[ ! -d /comfyui/repo/custom_nodes/ComfyUI-Manager ]]; then
-        git clone https://github.com/Comfy-Org/ComfyUI-Manager.git /comfyui/repo/custom_nodes/ComfyUI-Manager
-    fi
+    pip install -r requirements.txt -r manager_requirements.txt
+    git reset --hard
 else
     source /comfyui/venv/bin/activate
 fi
-git reset --hard
 exec python3.12 main.py "$@"
