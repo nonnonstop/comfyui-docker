@@ -6,8 +6,8 @@ if [[ ! -f /comfyui/venv/bin/activate ]]; then
     python3.12 -m venv /comfyui/venv
     source /comfyui/venv/bin/activate
     pip install -U pip wheel
-    pip install torch torchvision torchaudio --extra-index-url "https://download.pytorch.org/whl/cu${CUDA_MAJOR}${CUDA_MINOR}"
-    pip install -r requirements.txt -r manager_requirements.txt
+    pip install -U torch torchvision --extra-index-url "https://download.pytorch.org/whl/cu${CUDA_MAJOR}${CUDA_MINOR}"
+    pip install -U -r requirements.txt -r manager_requirements.txt
     git reset --hard
 else
     source /comfyui/venv/bin/activate

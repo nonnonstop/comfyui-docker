@@ -27,7 +27,7 @@ Tested on Ubuntu 24.04 on WSL2.
 
 2. Build image
 
-       docker compose build --build-arg COMMIT=master --build-arg CUDA_VERSION=12.6.3
+       docker compose build --pull --build-arg COMMIT=v0.38.0 --build-arg CUDA_VERSION=13.2.1
 
 ## Usage
 

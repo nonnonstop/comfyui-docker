@@ -1,4 +1,4 @@
-ARG CUDA_VERSION=13.0.3
+ARG CUDA_VERSION=13.2.1
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu24.04
 
 # Install apt packages
